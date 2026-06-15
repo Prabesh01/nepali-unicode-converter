@@ -1,23 +1,31 @@
 # Nepali Unicode Converter
 
-A tool to convert Romanized text to corresponding Nepali unicode.
+A tool to convert Romanized text to corresponding Nepali unicode and vice versa.
 
 
 
 ## Installation
 
-`pip install nepali-unicode-converter`
+`pip install git+https://github.com/Prabesh01/nepali-unicode-converter`
 
 
 
 ## Usage
 ```python
 from nepali_unicode_converter.convert import Converter
+from nepali_unicode_converter.convert import ReverseConverter
+from nepali_unicode_converter.convert import ReverseConverterV2
 
 converter = Converter()
-mystring = 'ke chha hajura?'
+rev = ReverseConverter()
+rev2 = ReverseConverterV2()
 
+mystring = 'ke chha hajura?'
 print(converter.convert(mystring))  ## Output: 'के छ हजुर?'
+
+mystring = 'फेरी आयो यो भालु! '
+print(rev.convert(mystring)) ## Output: 'feree aayo yo vaalu!'
+print(rev2.convert(mystring)) ## Output: 'pheree aayo yo bhaalu!'
 ```
 
 

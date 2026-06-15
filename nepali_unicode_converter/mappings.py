@@ -20,11 +20,11 @@ numbers: Mappings = {
 basic_vowels: Mappings = {
     'a': 'अ',
     'aa': 'आ',
-    'ee': 'ई ',
+    'ee': 'ई',
     'i': 'इ',
     'u': 'उ',
     'oo': 'ऊ',
-    'Ri': 'ॠ ',
+    'Ri': 'ॠ',
     'Ree': 'ॠ',
     'e': 'ए',
     'ai': 'ऐ',
