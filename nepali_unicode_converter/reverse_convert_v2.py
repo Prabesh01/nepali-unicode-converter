@@ -12,6 +12,7 @@ from nepali_unicode_converter.mappings import (
     basic_vowels,
     akaars,
 )
+from nepali_unicode_converter.smart_utils import convert_with_smart
 
 
 class ReverseConverterV2:
@@ -23,11 +24,19 @@ class ReverseConverterV2:
     - Uses 'bha' instead of 'va' for भ
     - Uses 'Ree' instead of 'Ri' for ॠ when appropriate
 
+    Args:
+        smart: If True, applies smart romanization rules:
+               - Simplifies vowels (ee→i, oo→u)
+               - Drops trailing 'a' contextually (din vs dina)
+               - Uses predefined word dictionary
+               Default: False (strict character mapping)
+
     Note: This is still a best-effort conversion. Some Nepali characters can be
     represented by multiple roman equivalents.
     """
 
-    def __init__(self):
+    def __init__(self, smart: bool = False):
+        self.smart = smart
         self.reverse_mappings = self._build_reverse_mappings()
         word_maps = get_word_maps()
         self.reverse_word_maps = dict(
@@ -89,6 +98,9 @@ class ReverseConverterV2:
         if not text:
             return text
 
+        if self.smart:
+            return convert_with_smart(self, text)
+
         result = []
         i = 0
 
@@ -125,6 +137,42 @@ class ReverseConverterV2:
 
             if not matched:
                 # Keep character as-is if no mapping found
+                result.append(text[i])
+                i += 1
+
+        return ''.join(result)
+        i = 0
+
+        while i < len(text):
+            matched = False
+
+            # Try word mappings first
+            for nepali_word, roman_word in self.reverse_word_maps.items():
+                if text[i:].startswith(nepali_word):
+                    result.append(roman_word)
+                    i += len(nepali_word)
+                    matched = True
+                    break
+
+            if matched:
+                continue
+
+            # Try character mappings
+            for nepali_char, roman_char in self.reverse_mappings.items():
+                if text[i:].startswith(nepali_char):
+                    if i + len(nepali_char) < len(text) and text[i + len(nepali_char)] == halanta:
+                        if roman_char.endswith('a'):
+                            result.append(roman_char[:-1])
+                        else:
+                            result.append(roman_char)
+                        i += len(nepali_char) + 1
+                    else:
+                        result.append(roman_char)
+                        i += len(nepali_char)
+                    matched = True
+                    break
+
+            if not matched:
                 result.append(text[i])
                 i += 1
 

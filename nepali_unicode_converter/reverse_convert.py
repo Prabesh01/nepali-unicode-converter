@@ -12,18 +12,27 @@ from nepali_unicode_converter.mappings import (
     basic_vowels,
     akaars,
 )
+from nepali_unicode_converter.smart_utils import convert_with_smart
 
 
 class ReverseConverter:
     """
     Converts Nepali Unicode text to Roman (English letters).
 
+    Args:
+        smart: If True, applies smart romanization rules:
+               - Simplifies vowels (ee→i, oo→u)
+               - Drops trailing 'a' contextually (din vs dina)
+               - Uses predefined word dictionary
+               Default: False (strict character mapping)
+
     Note: This is a best-effort conversion. Some Nepali characters can be
     represented by multiple roman equivalents, so the output may not exactly
     match the original roman input that was used to generate the Nepali text.
     """
 
-    def __init__(self):
+    def __init__(self, smart: bool = False):
+        self.smart = smart
         self.reverse_mappings = self._build_reverse_mappings()
         word_maps = get_word_maps()
         self.reverse_word_maps = dict(
@@ -66,6 +75,9 @@ class ReverseConverter:
         """
         if not text:
             return text
+
+        if self.smart:
+            return convert_with_smart(self, text)
 
         result = []
         i = 0
