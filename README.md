@@ -23,15 +23,15 @@ rev2 = ReverseConverterV2()
 mystring = 'ke chha hajura?'
 print(converter.convert(mystring))  ## Output: 'के छ हजुर?'
 
-mystring = 'फेरी आयो यो भालु! '
-print(rev.convert(mystring)) ## Output: 'feree aayo yo vaalu!'
-print(rev2.convert(mystring)) ## Output: 'pheree aayo yo bhaalu!'
+mystring = 'भालु फेरी रानीवन आयो!'
+print(rev.convert(mystring)) ## Output: 'vaalu feree raaneewana aayo !'
+print(rev2.convert(mystring)) ## Output: 'bhaalu pheree raaneewana aayo !'
 
-# smart mode. insprired from https://github.com/isDipesh/nepali-romanization
+# smart mode. inspired from https://github.com/isDipesh/nepali-romanization
 smart_rev = ReverseConverter(smart=True)
 smart_rev2 = ReverseConverterV2(smart=True)
-print(smart_rev.convert(mystring)) ## Output: 'feri aayo yo vaalu'
-print(smart_rev.convert(mystring)) ## Output: 'pheri aayo yo bhaalu'
+print(smart_rev.convert(mystring)) ## Output: 'valu feri raniwana ayo !'
+print(smart_rev2.convert(mystring)) ## Output: 'bhalu pheri raniwana ayo !'
 ```
 
 

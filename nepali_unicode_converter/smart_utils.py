@@ -64,10 +64,15 @@ BINDUS = ['ँ', 'ं', 'ः']
 
 def simplify_vowels(text: str) -> str:
     """
-    Simplify vowel representation: ee→i, oo→u
-    Makes output closer to how people naturally type.
+    Simplify vowel representation to match romanize.py:
+    - aa → a (long 'a' becomes short)
+    - ee → i (long 'i' becomes short)
+    - oo → u (long 'u' becomes short)
+
+    This matches how people naturally type Nepali in roman script.
     """
-    return text.replace('ee', 'i').replace('oo', 'u')
+    # Order matters: do longer replacements first
+    return text.replace('aa', 'a').replace('ee', 'i').replace('oo', 'u')
 
 
 def should_drop_trailing_a(nepali_word: str, char_idx: int, current_roman: str) -> bool:
