@@ -54,6 +54,7 @@ class ReverseConverterV2:
         base_preferences = {
             'फ': 'pha',   # prefer pha over fa
             'भ': 'bha',   # prefer bha over va
+            'छ': 'chha',  # prefer chha over xa (linguistic standard)
             'ॠ': 'Ree',   # prefer Ree over Ri
         }
 

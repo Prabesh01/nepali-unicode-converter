@@ -17,21 +17,24 @@ from nepali_unicode_converter.convert import ReverseConverter
 from nepali_unicode_converter.convert import ReverseConverterV2
 
 converter = Converter()
+# V1 (shortest): fa, va, xa
 rev = ReverseConverter()
+# V2 (linguistic): pha, bha, chha
 rev2 = ReverseConverterV2()
 
 mystring = 'ke chha hajura?'
 print(converter.convert(mystring))  ## Output: 'के छ हजुर?'
 
-mystring = 'भालु फेरी रानीवन आयो!'
-print(rev.convert(mystring)) ## Output: 'vaalu feree raaneewana aayo !'
-print(rev2.convert(mystring)) ## Output: 'bhaalu pheree raaneewana aayo !'
+mystring = 'भालु फेरी रानिवन आएको छ!'
+print(rev.convert(mystring)) ## Output: 'vaalu feree raaniwana aaeko xa!'
+print(rev2.convert(mystring)) ## Output: 'bhaalu pheree raaniwana aaeko chha!'
 
-# smart mode. inspired from https://github.com/isDipesh/nepali-romanization
+# smart mode: aa → a, ee → i, oo → u, conditionally drop trailing 'a'.
+# inspired from https://github.com/isDipesh/nepali-romanization
 smart_rev = ReverseConverter(smart=True)
 smart_rev2 = ReverseConverterV2(smart=True)
-print(smart_rev.convert(mystring)) ## Output: 'valu feri raniwana ayo !'
-print(smart_rev2.convert(mystring)) ## Output: 'bhalu pheri raniwana ayo !'
+print(smart_rev.convert(mystring)) ## Output: 'valu feri raniwana aeko xa!'
+print(smart_rev2.convert(mystring)) ## Output: 'bhalu pheri raniwana aeko chha!'
 ```
 
 

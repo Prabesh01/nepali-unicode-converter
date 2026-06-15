@@ -52,6 +52,7 @@ akaars: Mappings = {
     'NGa': 'ङ्ग',
     'cha': 'च',
     'chha': 'छ',
+    'xa': 'छ',
     'ja': 'ज',
     'jha': 'झ',
     'yNa': 'ञ',
