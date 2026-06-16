@@ -35,6 +35,14 @@ smart_rev = ReverseConverter(smart=True)
 smart_rev2 = ReverseConverterV2(smart=True)
 print(smart_rev.convert(mystring)) ## Output: 'valu feri raniwana aeko xa!'
 print(smart_rev2.convert(mystring)) ## Output: 'bhalu pheri raniwana aeko chha!'
+
+# custom mappings: define your own without modifying the module
+converter = Converter(custom_mappings={'wa': 'ब'})
+print(converter.convert('wa'))  ## Output: 'ब'
+
+# custom preferences for reverse
+rev = ReverseConverter(custom_mappings={'ba': 'व'})
+print(rev.convert('रानिवन'))  ## Output: 'raanibana'
 ```
 
 

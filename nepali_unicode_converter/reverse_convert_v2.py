@@ -30,13 +30,15 @@ class ReverseConverterV2:
                - Drops trailing 'a' contextually (din vs dina)
                - Uses predefined word dictionary
                Default: False (strict character mapping)
+        custom_mappings: Dict of additional roman->nepali mappings (e.g. {'wa': 'ब'})
 
     Note: This is still a best-effort conversion. Some Nepali characters can be
     represented by multiple roman equivalents.
     """
 
-    def __init__(self, smart: bool = False):
+    def __init__(self, smart: bool = False, custom_mappings: Mappings = None):
         self.smart = smart
+        self.custom_mappings = self._expand_custom_mappings(custom_mappings) if custom_mappings else None
         self.reverse_mappings = self._build_reverse_mappings()
         word_maps = get_word_maps()
         self.reverse_word_maps = dict(
@@ -45,9 +47,26 @@ class ReverseConverterV2:
                    reverse=True)
         )
 
+    def _expand_custom_mappings(self, custom: Mappings) -> Mappings:
+        """Expand custom consonants to include halanta and kaar forms."""
+        expanded = dict(custom)
+
+        for roman, nepali in custom.items():
+            if roman.endswith('a') and len(roman) > 1:
+                base = roman[:-1]
+                # Add halanta
+                expanded[base] = nepali + halanta
+                # Add kaar variants
+                for kaar_rom, kaar_sym in consonant_kaars.items():
+                    expanded[base + kaar_rom] = nepali + kaar_sym
+
+        return expanded
+
     def _build_reverse_mappings(self) -> Dict[str, str]:
         """Build reverse mappings from Nepali to Roman with linguistic preferences."""
         forward_maps = get_mappings()
+        if self.custom_mappings:
+            forward_maps.update(self.custom_mappings)
         reverse = {}
 
         # Base consonant preferences - prefer these over shorter alternatives

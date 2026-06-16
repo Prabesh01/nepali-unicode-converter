@@ -24,9 +24,28 @@ class State:
 
 
 class Converter:
-    def __init__(self):
+    def __init__(self, custom_mappings: Mappings = None):
         self.mappings = get_mappings()
+        if custom_mappings:
+            self.mappings.update(self._expand_custom_mappings(custom_mappings))
+            self.mappings = dict(sorted(self.mappings.items(), key=lambda x: len(x[0]), reverse=True))
         self.word_maps = get_word_maps()
+
+    def _expand_custom_mappings(self, custom: Mappings) -> Mappings:
+        """Expand custom consonants to include halanta and kaar forms."""
+        from nepali_unicode_converter.mappings import consonant_kaars, halanta
+        expanded = dict(custom)
+
+        for roman, nepali in custom.items():
+            if roman.endswith('a') and len(roman) > 1:
+                base = roman[:-1]
+                # Add halanta
+                expanded[base] = nepali + halanta
+                # Add kaar variants
+                for kaar_rom, kaar_sym in consonant_kaars.items():
+                    expanded[base + kaar_rom] = nepali + kaar_sym
+
+        return expanded
 
     def consume(self, state: State) -> State:
         current = state.remaining
