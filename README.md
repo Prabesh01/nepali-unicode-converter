@@ -1,3 +1,5 @@
+**[Shabdakosha](https://github.com/nepalibhasha/shabdakosha/blob/main/shabdakosha/romanization.py) does romnization in way more better and organized way than the hackish way i did. I personally reccommend trying that one instead as it implements proper and standard way of transliteration.**
+
 # Nepali Unicode Converter
 
 A tool to convert Romanized text to corresponding Nepali unicode and vice versa.
